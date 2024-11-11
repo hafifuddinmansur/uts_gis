@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Kota Mataram</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="asset/leaflet/leaflet.css" />
+    <script src="asset/leaflet/leaflet.js"></script>
+    <script src="json/mataram.js"></script>
+    <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        width: 100%;
+        height: 100%;
+      }
+      .leaflet-popup-content {
+        width: auto !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      //##############################################//
+      // Membuat Icon Pada Peta
+      //##############################################//
+      var mapIcon = L.Icon.extend({
+        iconSize: [32, 37],
+      });
+      var kesehatan = new mapIcon({ iconUrl: "icon/hospital.png" }),
+        taman = new mapIcon({ iconUrl: "icon/playground.png" }),
+        sekolah = new mapIcon({ iconUrl: "icon/conference.png" }),
+        polisi = new mapIcon({ iconUrl: "icon/police.png" }),
+        camat = new mapIcon({ iconUrl: "icon/office.png" });
+
+      //##############################################//
+      // Mendeklarasikan Marker kesehatan dan membuatnya menjadi
+      // Layer Group
+      //##############################################//
+
+      var rs1 = L.marker([-8.606175280401098, 116.13534364385002], {
+        icon: kesehatan,
+      }).bindPopup(
+        "Rumah Sakit Risa <img src='img/risa.jpeg' alt='RS ' width='350px'/>"
+      );
+      var rs2 = L.marker([-8.585985186340393, 116.12025525007277], {
+        icon: kesehatan,
+      }).bindPopup(
+        "RSI Siti Hajar <img src='img/sitihajar.png' alt='RSI ' width='350px'/>"
+      );
+      var kesehatan = L.layerGroup([rs1, rs2]);
+
+      //##############################################//
+      // Mendeklarasikan Marker Taman Bermain dan membuatnya menjadi
+      // Layer Group
+      //##############################################//
+      var tmn1 = L.marker([-8.583103456860478, 116.10756931111956], {
+        icon: taman,
+      }).bindPopup(
+        "Taman Sangkareang <img src='img/sangkareang.jpg' alt='Taman Sangkareang' width='350px'/>"
+      );
+      var tmn2 = L.marker([-8.572751630107984, 116.1019666371451], {
+        icon: taman,
+      }).bindPopup(
+        "Taman Udayana <img src='img/udayana.jpeg' alt='Taman Udayana' width='350px'/>"
+      );
+      var taman = L.layerGroup([tmn1, tmn2]);
+
+      //##############################################//
+      // Mendeklarasikan Marker keamanan dan membuatnya menjadi
+      // Layer Group
+      //##############################################//
+
+      var pol1 = L.marker([-8.592167472514571, 116.11327116598162], {
+        icon: polisi,
+      }).bindPopup(
+        "Polsek Mataram <img src='img/pmataram.jpeg' alt='Polsek Mataram' width='350px'/>"
+      );
+      var pol2 = L.marker([-8.57792037980373, 116.1194238218004], {
+        icon: polisi,
+      }).bindPopup(
+        "Polsek Selaparang <img src='img/pselaparang.jpg' alt='Polsek Selaparang' width='350px'/>"
+      );
+
+      var polisi = L.layerGroup([pol1, pol2]);
+
+      //##############################################//
+      // Mendeklarasikan Marker waduk dan membuatnya menjadi
+      // Layer Group
+      //##############################################//
+      var skl1 = L.marker([-8.56343727154939, 116.11771488132575], {
+        icon: sekolah,
+      }).bindPopup(
+        "SMKN 1 Mataram <img src='img/smkn.jpeg' alt='SMKN 1' width='350px'/>"
+      );
+      var skl2 = L.marker([-8.594210607438292, 116.08799673899863], {
+        icon: sekolah,
+      }).bindPopup(
+        "SMPN 11 Mataram <img src='img/smpn11.webp' alt='SMPN 11' width='350px'/>"
+      );
+
+      var sekolah = L.layerGroup([skl1, skl2]);
+
+      //##############################################//
+      // Mendeklarasikan Marker Kantor camat dan membuatnya menjadi
+      // Layer Group
+      //##############################################//
+
+      var cmt1 = L.marker([-8.56612612619599, 116.13559877947263], {
+        icon: camat,
+      }).bindPopup(
+        "Kantor Camat Cakranegara <img src='img/cakranegara.jpg' alt='Kantor Camat Cakranegara' width='350px'/>"
+      );
+      var cmt2 = L.marker([-8.579365815873325, 116.08263391016231], {
+        icon: camat,
+      }).bindPopup(
+        "Kantor Camat Ampenan  <img src='img/ampenan.jpg' alt='Kantor Ampenan' width='350px'/>"
+      );
+      var cmt3 = L.marker([-8.593965724022974, 116.11217823714543], {
+        icon: camat,
+      }).bindPopup(
+        "Kantor Camat Mataram <img src='img/mataram.jpg' alt='Kantor Camat Mataram' width='350px'/>"
+      );
+      var cmt4 = L.marker([-8.592905431828399, 116.15164507947317], {
+        icon: camat,
+      }).bindPopup(
+        "Kantor Camat Sandubaya <img src='img/sandubaya.jpg' alt='Kantor Camat Sandubaya' width='350px'/>"
+      );
+      var cmt5 = L.marker([-8.611002022486208, 116.07623982761169], {
+        icon: camat,
+      }).bindPopup(
+        "Kantor Camat Sekarbela <img src='img/sekarbela.jpg' alt='Kantor Camat Sekarbela' width='350px'/>"
+      );
+      var cmt6 = L.marker([-8.563690197925078, 116.11778353714492], {
+        icon: camat,
+      }).bindPopup(
+        "Kantor Camat Selaparang <img src='img/selaparang.webp' alt='Kantor Camat Selaparang' width='350px'/>"
+      );
+      var camat = L.layerGroup([cmt1, cmt2, cmt3, cmt4, cmt5, cmt6]);
+
+      //##############################################//
+      // Membuat BaseMap Pada Peta
+      //##############################################//
+
+      var mbAttr =
+          'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        mbUrl =
+          "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw";
+
+      var streets = L.tileLayer(mbUrl, {
+        id: "mapbox.streets",
+        attribution: mbAttr,
+      });
+      var openstreets = L.tileLayer(
+        "https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
+        {
+          maxZoom: 19,
+          attribution:
+            "© OpenStreetMap contributors, Tiles style by Humanitarian OpenStreetMap Team hosted by OpenStreetMap France",
+        }
+      );
+      var satelit = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        {
+          attribution:
+            "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+        }
+      );
+      //##############################################//
+      // Mendeklarasikan Peta kedalam Id Map
+      //##############################################//
+      var map = L.map("map", {
+        center: [-8.596739142473067, 116.10289132254208],
+        zoom: 13.4,
+        layers: [openstreets],
+      });
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 15,
+        attribution:
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      }).addTo(map);
+      //##############################################//
+      // Mendeklarasikan BaseLayer Pada Map yakni Street
+      //##############################################//
+      var baseLayers = {
+        Streets: streets,
+        Satelit: satelit,
+        OpenSetreets: openstreets,
+      };
+      var styelku = {
+        color: "red",
+        weight: 3,
+      };
+
+      var sandubaya = L.geoJSON([sdby], styelku, {
+        style: function (feature) {
+          return feature.properties && feature.properties.style;
+        },
+      });
+      var sekarbela = L.geoJSON([skrbl], styelku, {
+        style: function (feature) {
+          return feature.properties && feature.properties.style;
+        },
+      });
+      var cakranegara = L.geoJSON([ckr], styelku, {
+        style: function (feature) {
+          return feature.properties && feature.properties.style;
+        },
+      });
+      var ampenan = L.geoJSON([apn], styelku, {
+        style: function (feature) {
+          return feature.properties && feature.properties.style;
+        },
+      });
+      var selaparang = L.geoJSON([slpr], styelku, {
+        style: function (feature) {
+          return feature.properties && feature.properties.style;
+        },
+      });
+      var mataram = L.geoJSON([mtrm], styelku, {
+        style: function (feature) {
+          return feature.properties && feature.properties.style;
+        },
+      });
+
+      var overlays = {
+        // "Kelurahan Praya ": kelpraya,
+        // "Kelurahan Leneng": leneng,
+        // "Keluranan Prapen": prapen,
+        // "Keluranan Panjisari": panjisari,
+        // Kecamatan
+        "Kec. Sandubaya": sandubaya,
+        "Kec, Sekarbela": sekarbela,
+        "Kec, Cakranegara": cakranegara,
+        "Kec, Ampenan": ampenan,
+        "Kec, Selaparang": selaparang,
+        "Kec, Mataram": mataram,
+
+        //##############################################//
+        // Deklarasi untuk memilih Icon yang akan ditampilkan
+        //##############################################//
+        kesehatan: kesehatan,
+        sekolah: sekolah,
+        taman: taman,
+        polisi: polisi,
+        camat: camat,
+      };
+
+      //##############################################//
+      // Menambah  variabel baselayaer dan overlay kedalam map
+      //##############################################//
+      L.control.layers(baseLayers, overlays).addTo(map);
+
+      //##############################################//
+      // Menbambil data geospesial wilayak kecamatan praya
+      //##############################################//
+      L.geoJSON([btskab], {
+        style: function (feature) {
+          return feature.properties && feature.properties.style;
+        },
+      }).addTo(map);
+    </script>
+  </body>
+</html>
